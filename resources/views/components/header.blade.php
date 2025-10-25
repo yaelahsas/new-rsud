@@ -60,12 +60,12 @@
                                 class="text-blue-700 lg:p-0 dark:text-white">Beranda</a></li>
                         <li><a href="#"
                                 class="text-gray-700 hover:text-blue-700 lg:p-0 dark:text-gray-400 dark:hover:text-white">Layanan</a></li>
-                        <li><a href="#"
+                        <li><a href="/medis"
                                 class="text-gray-700 hover:text-blue-700 lg:p-0 dark:text-gray-400 dark:hover:text-white">Dokter</a></li>
-                        <li><a href="#"
-                                class="text-gray-700 hover:text-blue-700 lg:p-0 dark:text-gray-400 dark:hover:text-white">Informasi</a></li>
-                        <li><a href="#"
-                                class="text-gray-700 hover:text-blue-700 lg:p-0 dark:text-gray-400 dark:hover:text-white">Kontak</a></li>
+                        <li><a href="/inovasi"
+                                class="text-gray-700 hover:text-blue-700 lg:p-0 dark:text-gray-400 dark:hover:text-white">Inovasi</a></li>
+                        <li><a href="/artikel"
+                                class="text-gray-700 hover:text-blue-700 lg:p-0 dark:text-gray-400 dark:hover:text-white">Artikel</a></li>
                     </ul>
                 </div>
             </div>
