@@ -74,4 +74,4 @@
 </section>
 
 <!-- Spacer (tinggi total banner + navbar) -->
-<div class="h-28 md:h-24"></div>
+<div class="h-10 md:h-18"></div>
