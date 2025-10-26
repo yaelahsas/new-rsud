@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->string('nama')->nullable();
+            $table->tinyInteger('rating')->default(0);
+            $table->text('pesan')->nullable();
+            $table->foreignId('inovasi_id')->nullable()->constrained('inovasis')->nullOnDelete();
             $table->timestamps();
         });
     }

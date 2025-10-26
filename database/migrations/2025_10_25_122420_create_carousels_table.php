@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('carousels', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->string('slug')->unique();
+            $table->text('konten')->nullable();
+            $table->boolean('aktif')->default(true);
             $table->timestamps();
         });
     }

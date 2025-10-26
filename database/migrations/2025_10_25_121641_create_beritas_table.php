@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('beritas', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->string('slug')->unique();
+            $table->foreignId('kategori_id')->nullable()->constrained('kategori_berita')->nullOnDelete();
+            $table->text('isi');
+            $table->string('thumbnail')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->boolean('publish')->default(true);
             $table->timestamps();
         });
     }

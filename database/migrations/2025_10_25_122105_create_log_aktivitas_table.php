@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('log_aktivitas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('aksi'); // contoh: 'Menambah Berita', 'Edit Jadwal Dokter'
+            $table->string('modul')->nullable(); // contoh: 'Berita', 'Jadwal', 'Inovasi'
+            $table->text('detail')->nullable();
+            $table->ipAddress('ip')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('inovasis', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_inovasi');
+            $table->string('slug')->unique();
+            $table->text('deskripsi')->nullable();
+            $table->string('gambar')->nullable();
+            $table->string('link')->nullable();
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });
     }

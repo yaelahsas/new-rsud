@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengumumen', function (Blueprint $table) {
+        Schema::create('pengumuman', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->text('isi')->nullable();
+            $table->string('gambar')->nullable();
+            $table->date('tanggal_mulai')->nullable();
+            $table->date('tanggal_selesai')->nullable();
+            $table->boolean('aktif')->default(true);
             $table->timestamps();
         });
     }

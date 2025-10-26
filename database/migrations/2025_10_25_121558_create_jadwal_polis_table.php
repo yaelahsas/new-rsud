@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('jadwal_polis', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('dokter_id')->constrained('dokter')->cascadeOnDelete();
+            $table->foreignId('poli_id')->constrained('polis')->cascadeOnDelete();
+            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->boolean('is_cuti')->default(false);
+            $table->date('tanggal_cuti')->nullable();
+            $table->text('keterangan')->nullable();
         });
     }
 
