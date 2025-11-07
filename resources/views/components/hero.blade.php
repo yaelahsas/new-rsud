@@ -1,29 +1,54 @@
-<!-- 🦋 Hero -->
-<section class="relative bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 overflow-hidden pt-36">
-  <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-    <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col justify-center md:items-start text-center md:text-left mb-16 md:mb-0 animate-fadeInUp">
-      <h1 class="sm:text-5xl text-4xl mb-6 font-extrabold text-gray-900 dark:text-white leading-tight tracking-tight">
-        Inovasi <span class="text-primary-600">Kesehatan Modern</span>
-        <br class="hidden lg:inline-block">untuk Pelayanan Terbaik
-      </h1>
-      <p class="mb-8 text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg">
-        Kami menghadirkan teknologi digital yang memudahkan pasien mendapatkan akses layanan rumah sakit dengan cepat, mudah, dan aman.
-      </p>
-      <div class="flex justify-center md:justify-start space-x-4">
-        <a href="#layanan" class="inline-flex items-center justify-center px-6 py-3 text-lg font-semibold text-white bg-primary-600 rounded-lg shadow-md hover:bg-primary-700 hover:shadow-lg transition-all duration-300">
-          Mulai Sekarang
-          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7 7 7-7 7"></path></svg>
-        </a>
-        <a href="#profil" class="inline-flex items-center justify-center px-6 py-3 text-lg font-semibold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
-          Pelajari Lebih Lanjut
-        </a>
-      </div>
+<section class="text-gray-700 body-font bg-blue-50 pt-20 lg:pt-0">
+    <div class="container mx-auto flex flex-col md:flex-row items-center px-5 py-16 md:py-24">
+
+        <!-- Bagian kiri: teks hero -->
+        <div
+            class="flex flex-col md:items-start md:text-left mb-10 md:mb-0 items-center text-center md:w-1/2 lg:pr-24 md:pr-16">
+
+            <!-- Judul -->
+            <h1 class="title-font font-bold text-blue-900 text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">
+                Selamat Datang di RSUD Genteng Banyuwangi
+            </h1>
+
+            <!-- Paragraf (sembunyi di layar kecil) -->
+            <p class="mb-8 leading-relaxed text-gray-600 hidden sm:block">
+                Rumah Sakit Umum Daerah Genteng Banyuwangi berkomitmen memberikan pelayanan kesehatan terbaik bagi
+                masyarakat dengan mengedepankan profesionalisme, empati, dan teknologi terkini.
+                Temukan berbagai layanan dan informasi rumah sakit kami secara online.
+            </p>
+
+            <!-- 🔍 Pencarian -->
+            <div class="w-full md:w-4/5 mb-8">
+                <form
+                    class="flex items-center bg-white rounded-full shadow-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-300 transition">
+                    <input type="text" id="hero-search" name="hero-search"
+                        placeholder="Cari layanan, dokter, atau informasi..."
+                        class="flex-grow px-4 py-2 sm:px-5 sm:py-3 text-gray-700 placeholder-gray-400 text-sm sm:text-base focus:outline-none" />
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-r-full text-sm sm:text-base transition">
+                        Cari
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tombol aksi -->
+            <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center md:justify-start">
+                <a href="https://rsudgenteng.banyuwangikab.go.id/pendaftaran" target="_blank"
+                    class="inline-flex justify-center text-white bg-blue-600 border-0 py-2 sm:py-3 px-6 sm:px-8 focus:outline-none hover:bg-blue-700 rounded-full text-sm sm:text-lg transition w-full sm:w-auto">
+                    Daftar Online
+                </a>
+                <a href="https://www.youtube.com/watch?v=pMBiQ3Pt8p0" target="_blank"
+                    class="inline-flex justify-center text-blue-700 bg-blue-100 border-0 py-2 sm:py-3 px-6 sm:px-8 focus:outline-none hover:bg-blue-200 rounded-full text-sm sm:text-lg transition w-full sm:w-auto">
+                    Panduan Pendaftaran
+                </a>
+            </div>
+        </div>
+
+        <!-- Bagian kanan: gambar direktur -->
+        <div class="md:w-1/2 w-full flex justify-center">
+            <img class="object-contain object-center rounded-lg  w-4/5 sm:w-3/4 md:w-full max-w-md h-120"
+                alt="Direktur RSUD Genteng" src="{{ asset('img/dr.sugiyo.png') }}">
+        </div>
+
     </div>
-    <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 relative animate-fadeInRight">
-      <div class="absolute -top-10 -left-10 w-72 h-72 bg-primary-100 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse"></div>
-      <div class="absolute top-0 right-0 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-pulse"></div>
-      <img class="relative object-cover object-center rounded-2xl shadow-xl z-10" alt="hero"
-        src="https://dummyimage.com/720x600/2563eb/ffffff&text=RSUD+Genteng" />
-    </div>
-  </div>
 </section>

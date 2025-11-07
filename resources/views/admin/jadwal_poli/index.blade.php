@@ -1,5 +1,8 @@
-<x-admin.index>
-<x-slot:title>Jadwal Poli</x-slot:title>
-<x-slot:judul>Semua Jadwal Poli</x-slot:judul>
-    @livewire('admin.jadwal_poli.index')
-</x-admin.index>
+@extends('layouts.app')
+
+@section('title', 'Manajemen Jadwal Poli')
+@section('breadcrumb', 'Jadwal Poli')
+
+@section('content')
+@include('admin.jadwal-poli.alpine-index')
+@endsection

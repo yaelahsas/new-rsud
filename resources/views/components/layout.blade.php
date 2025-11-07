@@ -19,17 +19,18 @@
   <link rel="stylesheet" href="{{ asset('css/fontawesome-free/css/all.css'  ) }}" />
 </head>
 
-<body class="min-h-screen bg-blue-50 text-gray-700 font-sans antialiased flex flex-col">
+<body class="min-h-screen w-full bg-blue-50 text-gray-700 font-sans antialiased flex flex-col">
 
 
 
     <!-- Header -->
     <x-header></x-header>
     {{-- <x-hero></x-hero> --}}
+    <x-hero></x-hero>
  
     <!-- Main Content -->
     <main class="flex-grow bg-white shadow-inner">
-        <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-8md px-4 py-10 sm:px-6 lg:px-8">
             {{ $slot }}
         </div>
     </main>

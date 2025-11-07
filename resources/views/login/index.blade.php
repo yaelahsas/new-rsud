@@ -82,12 +82,16 @@
             <h1 class="mt-4 text-2xl font-bold text-gray-800">Login Admin</h1>
         </div>
 
-        <form action="#" method="POST" class="space-y-5">
+        <form action="{{ route('login.post') }}" method="POST" class="space-y-5">
+            @csrf
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" id="email" name="email" required
                     class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
-                    placeholder="contoh@email.com">
+                    placeholder="contoh@email.com" value="{{ old('email') }}">
+                @error('email')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
@@ -95,7 +99,18 @@
                 <input type="password" id="password" name="password" required
                     class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
                     placeholder="********">
+                @error('password')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
+
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                    {{ $errors->first() }}
+                </div>
+            @endif
 
             <div class="flex items-center justify-between text-sm">
                 <label class="flex items-center">

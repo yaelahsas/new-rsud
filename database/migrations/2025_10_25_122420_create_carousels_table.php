@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('carousels', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->string('slug')->unique();
-            $table->text('konten')->nullable();
-            $table->boolean('aktif')->default(true);
+            $table->string('judul')->nullable();         // Judul slide
+            $table->text('deskripsi')->nullable();       // Deskripsi singkat
+            $table->string('gambar')->nullable();        // Path gambar (upload)
+            $table->string('link')->nullable();          // Opsional, jika slide bisa diklik
+            $table->integer('urutan')->default(0);       // Urutan tampil (0 = paling awal)
+            $table->boolean('aktif')->default(true);     // Aktif/nonaktif
             $table->timestamps();
         });
     }

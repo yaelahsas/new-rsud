@@ -1,5 +1,8 @@
-<x-admin.index>
-<x-slot:title>Kategori</x-slot:title>
-<x-slot:judul>Semua Kategori</x-slot:judul>
-    @livewire('admin.kategori.index')
-</x-admin.index>
+@extends('layouts.app')
+
+@section('title', 'Manajemen Kategori')
+@section('breadcrumb', 'Kategori')
+
+@section('content')
+@include('admin.kategori.alpine-index')
+@endsection

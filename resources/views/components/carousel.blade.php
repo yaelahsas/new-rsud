@@ -26,7 +26,7 @@
         </div>
     </div>
     <!-- Carousel wrapper -->
-    <div class="relative h-56 overflow-hidden rounded-lg md:h-96 lg:h-[700px]" data-carousel="static">
+    <div class="relative w-full h-56 overflow-hidden rounded-lg md:h-96 lg:h-[700px]" data-carousel="static">
         <!-- Item 1 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
             <img src="https://rsudgenteng.banyuwangikab.go.id/gambar/profil/Profil-240927-fb6fb2b942.png"

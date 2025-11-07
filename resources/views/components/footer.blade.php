@@ -1,4 +1,4 @@
-<footer id="footer" class="bg-gradient-to-r from-teal-700 to-emerald-600 text-white">
+<footer id="footer" class="bg-gradient-to-r from-blue-700 to-sky-400 text-white">
     <div class="border-b border-white/20">
         <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             
