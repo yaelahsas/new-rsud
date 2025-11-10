@@ -1,0 +1,474 @@
+/* Alpine.js Transitions and Animations for RSUD Genteng */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Down Animation */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide In Right Animation */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Spin Animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0,0,0);
+    }
+    40%, 43% {
+        transform: translate3d(0, -10px, 0);
+    }
+    70% {
+        transform: translate3d(0, -5px, 0);
+    }
+    90% {
+        transform: translate3d(0, -2px, 0);
+    }
+}
+
+/* Transition Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.fade-in-down {
+    animation: fadeInDown 0.5s ease-out;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+.bounce {
+    animation: bounce 1s;
+}
+
+/* Alpine.js Transition Directives */
+[x-transition\:enter] {
+    transition: all 0.3s ease-out;
+}
+
+[x-transition\:enter-start] {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+[x-transition\:enter-end] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+[x-transition\:leave] {
+    transition: all 0.2s ease-in;
+}
+
+[x-transition\:leave-start] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+[x-transition\:leave-end] {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+/* Specific transitions for different components */
+.search-overlay[x-transition\:enter] {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.search-overlay[x-transition\:enter-start] {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.search-overlay[x-transition\:enter-end] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.search-overlay[x-transition\:leave] {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.search-overlay[x-transition\:leave-start] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.search-overlay[x-transition\:leave-end] {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.mobile-menu[x-transition\:enter] {
+    transition: transform 0.3s ease-out;
+}
+
+.mobile-menu[x-transition\:enter-start] {
+    transform: translateX(-100%);
+}
+
+.mobile-menu[x-transition\:enter-end] {
+    transform: translateX(0);
+}
+
+.mobile-menu[x-transition\:leave] {
+    transition: transform 0.2s ease-in;
+}
+
+.mobile-menu[x-transition\:leave-start] {
+    transform: translateX(0);
+}
+
+.mobile-menu[x-transition\:leave-end] {
+    transform: translateX(-100%);
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Button hover effects */
+.btn-hover {
+    transition: all 0.2s ease;
+}
+
+.btn-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading skeleton animation */
+@keyframes skeleton-loading {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.skeleton {
+    background-color: #eee;
+    background-image: linear-gradient(
+        90deg,
+        #eee,
+        #f5f5f5,
+        #eee
+    );
+    background-size: 200px 100%;
+    background-repeat: no-repeat;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+/* Tab transitions */
+.tab-content[x-transition\:enter] {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tab-content[x-transition\:enter-start] {
+    opacity: 0;
+    transform: translateX(10px);
+}
+
+.tab-content[x-transition\:enter-end] {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.tab-content[x-transition\:leave] {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.tab-content[x-transition\:leave-start] {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.tab-content[x-transition\:leave-end] {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+/* Notification toast transitions */
+.toast[x-transition\:enter] {
+    transition: all 0.3s ease;
+}
+
+.toast[x-transition\:enter-start] {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.toast[x-transition\:enter-end] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast[x-transition\:leave] {
+    transition: all 0.2s ease;
+}
+
+.toast[x-transition\:leave-start] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast[x-transition\:leave-end] {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+/* Modal transitions */
+.modal[x-transition\:enter] {
+    transition: opacity 0.3s ease;
+}
+
+.modal[x-transition\:enter-start] {
+    opacity: 0;
+}
+
+.modal[x-transition\:enter-end] {
+    opacity: 1;
+}
+
+.modal[x-transition\:leave] {
+    transition: opacity 0.2s ease;
+}
+
+.modal[x-transition\:leave-start] {
+    opacity: 1;
+}
+
+.modal[x-transition\:leave-end] {
+    opacity: 0;
+}
+
+.modal-content[x-transition\:enter] {
+    transition: all 0.3s ease;
+}
+
+.modal-content[x-transition\:enter-start] {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.modal-content[x-transition\:enter-end] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-content[x-transition\:leave] {
+    transition: all 0.2s ease;
+}
+
+.modal-content[x-transition\:leave-start] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-content[x-transition\:leave-end] {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+/* Dropdown transitions */
+.dropdown[x-transition\:enter] {
+    transition: all 0.2s ease;
+}
+
+.dropdown[x-transition\:enter-start] {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+.dropdown[x-transition\:enter-end] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown[x-transition\:leave] {
+    transition: all 0.2s ease;
+}
+
+.dropdown[x-transition\:leave-start] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown[x-transition\:leave-end] {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+/* Pagination transitions */
+.pagination-item {
+    transition: all 0.2s ease;
+}
+
+.pagination-item:hover {
+    transform: translateY(-2px);
+}
+
+/* Filter tag transitions */
+.filter-tag {
+    transition: all 0.2s ease;
+}
+
+.filter-tag:hover {
+    transform: scale(1.05);
+}
+
+/* Search result item transitions */
+.search-result-item {
+    transition: all 0.2s ease;
+}
+
+.search-result-item:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+    transform: translateX(5px);
+}
+
+/* Staggered animations for lists */
+.stagger-item {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.05s; }
+.stagger-item:nth-child(2) { animation-delay: 0.1s; }
+.stagger-item:nth-child(3) { animation-delay: 0.15s; }
+.stagger-item:nth-child(4) { animation-delay: 0.2s; }
+.stagger-item:nth-child(5) { animation-delay: 0.25s; }
+.stagger-item:nth-child(6) { animation-delay: 0.3s; }
+.stagger-item:nth-child(7) { animation-delay: 0.35s; }
+.stagger-item:nth-child(8) { animation-delay: 0.4s; }
+.stagger-item:nth-child(9) { animation-delay: 0.45s; }
+.stagger-item:nth-child(10) { animation-delay: 0.5s; }
+
+/* Loading spinner with different sizes */
+.spinner-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 2px;
+}
+
+.spinner-md {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: 3px;
+}
+
+.spinner-lg {
+    width: 2rem;
+    height: 2rem;
+    border-width: 4px;
+}
+
+/* Custom scrollbar for search results */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Focus states with transitions */
+.focus-transition {
+    transition: all 0.2s ease;
+}
+
+.focus-transition:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Mobile menu backdrop */
+.backdrop {
+    transition: opacity 0.3s ease;
+}
+
+/* Image lazy loading placeholder */
+.image-placeholder {
+    background-color: #f3f4f6;
+    background-image: linear-gradient(45deg, #f3f4f6 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f3f4f6 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f3f4f6 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f3f4f6 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}

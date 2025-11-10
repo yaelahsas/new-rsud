@@ -4,6 +4,9 @@
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
 
+/* Import Alpine.js transitions */
+@import './alpine-transitions.css';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';

@@ -484,6 +484,42 @@
   </div>
 </div>
 
+<!-- Additional Popup Modals -->
+<div id="popup2" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black/70">
+  <div class="relative">
+    <img src="https://rsudgenteng.banyuwangikab.go.id/gambar/galeri/Galeri-250611-f83cfdbea8.jpg" class="max-h-[90vh] rounded-lg shadow-lg">
+    <button type="button" class="absolute top-3 right-3 text-white bg-black/60 rounded-full p-2" data-modal-hide="popup2">✕</button>
+  </div>
+</div>
+
+<div id="popup3" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black/70">
+  <div class="relative">
+    <img src="https://rsudgenteng.banyuwangikab.go.id/gambar/galeri/Galeri-250611-c559986c98.jpg" class="max-h-[90vh] rounded-lg shadow-lg">
+    <button type="button" class="absolute top-3 right-3 text-white bg-black/60 rounded-full p-2" data-modal-hide="popup3">✕</button>
+  </div>
+</div>
+
+<div id="popup4" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black/70">
+  <div class="relative">
+    <img src="https://rsudgenteng.banyuwangikab.go.id/gambar/galeri/Galeri-250611-fa0da8f07e.jpg" class="max-h-[90vh] rounded-lg shadow-lg">
+    <button type="button" class="absolute top-3 right-3 text-white bg-black/60 rounded-full p-2" data-modal-hide="popup4">✕</button>
+  </div>
+</div>
+
+<div id="popup5" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black/70">
+  <div class="relative">
+    <img src="https://rsudgenteng.banyuwangikab.go.id/gambar/galeri/Galeri-250611-e30711f72c.jpg" class="max-h-[90vh] rounded-lg shadow-lg">
+    <button type="button" class="absolute top-3 right-3 text-white bg-black/60 rounded-full p-2" data-modal-hide="popup5">✕</button>
+  </div>
+</div>
+
+<div id="popup6" tabindex="-1" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black/70">
+  <div class="relative">
+    <img src="https://rsudgenteng.banyuwangikab.go.id/gambar/galeri/Galeri-250614-71f0a06f91.jpg" class="max-h-[90vh] rounded-lg shadow-lg">
+    <button type="button" class="absolute top-3 right-3 text-white bg-black/60 rounded-full p-2" data-modal-hide="popup6">✕</button>
+  </div>
+</div>
+
 
 
 

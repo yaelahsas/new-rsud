@@ -35,7 +35,7 @@
                 <p class="text-gray-600 mb-6 leading-relaxed">
                     Pelayanan medis tanpa perlu menginap dengan berbagai spesialisasi dokter terbaik.
                 </p>
-                <a href="#"
+                <a href="/layanan#rawat-jalan"
                     class="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700 transition">
                     Selengkapnya
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -57,7 +57,7 @@
                 <p class="text-gray-600 mb-6 leading-relaxed">
                     Ruang perawatan nyaman dengan fasilitas modern dan tenaga perawat profesional 24 jam.
                 </p>
-                <a href="#"
+                <a href="/layanan#rawat-inap"
                     class="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700 transition">
                     Selengkapnya
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -79,7 +79,7 @@
                 <p class="text-gray-600 mb-6 leading-relaxed">
                     Unit gawat darurat siap siaga 24 jam dengan tenaga medis berpengalaman dan peralatan lengkap.
                 </p>
-                <a href="#"
+                <a href="/layanan#gawat-darurat"
                     class="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700 transition">
                     Selengkapnya
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"

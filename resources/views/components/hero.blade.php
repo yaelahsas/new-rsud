@@ -1,4 +1,4 @@
-<section class="text-gray-700 body-font bg-blue-50 pt-20 lg:pt-0">
+<section x-data="heroSearch" class="text-gray-700 body-font bg-blue-50 pt-20 lg:pt-0">
     <div class="container mx-auto flex flex-col md:flex-row items-center px-5 py-16 md:py-24">
 
         <!-- Bagian kiri: teks hero -->
@@ -19,9 +19,9 @@
 
             <!-- 🔍 Pencarian -->
             <div class="w-full md:w-4/5 mb-8">
-                <form
+                <form @submit.prevent="performSearch()"
                     class="flex items-center bg-white rounded-full shadow-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-300 transition">
-                    <input type="text" id="hero-search" name="hero-search"
+                    <input x-model="searchQuery" type="text" id="hero-search" name="hero-search"
                         placeholder="Cari layanan, dokter, atau informasi..."
                         class="flex-grow px-4 py-2 sm:px-5 sm:py-3 text-gray-700 placeholder-gray-400 text-sm sm:text-base focus:outline-none" />
                     <button type="submit"

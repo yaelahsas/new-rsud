@@ -9,11 +9,80 @@ Route::get('/', function () {
 Route::get('/medis', function () {
     return view('medis');
 });
+Route::get('/layanan', function () {
+    return view('layanan');
+});
 Route::get('/artikel', function () {
     return view('artikel');
 });
 Route::get('/inovasi', function () {
     return view('inovasi');
+});
+
+// API Routes for Frontend Search
+Route::get('/api/search', function (Illuminate\Http\Request $request) {
+    $query = $request->get('q', '');
+    $results = [];
+    
+    if (strlen($query) >= 2) {
+        // Search doctors
+        $doctors = App\Models\Dokter::where('nama', 'like', '%' . $query . '%')
+            ->orWhere('spesialis', 'like', '%' . $query . '%')
+            ->where('status', 'aktif')
+            ->limit(5)
+            ->get(['id', 'nama', 'spesialis', 'foto']);
+            
+        foreach ($doctors as $doctor) {
+            $results[] = [
+                'id' => $doctor->id,
+                'title' => $doctor->nama,
+                'description' => $doctor->spesialis,
+                'category' => 'doctors',
+                'url' => '/medis?search=' . urlencode($doctor->nama),
+                'image' => $doctor->foto ? '/storage/' . $doctor->foto : null
+            ];
+        }
+        
+        // Search poliklinik
+        $polis = App\Models\Poli::where('nama_poli', 'like', '%' . $query . '%')
+            ->where('status', 'aktif')
+            ->limit(3)
+            ->get(['id', 'nama_poli']);
+            
+        foreach ($polis as $poli) {
+            $results[] = [
+                'id' => 'poli-' . $poli->id,
+                'title' => $poli->nama_poli,
+                'description' => 'Poliklinik',
+                'category' => 'services',
+                'url' => '/medis?search=' . urlencode($poli->nama_poli),
+                'image' => null
+            ];
+        }
+        
+        // Search articles/berita
+        $articles = App\Models\Berita::where('judul', 'like', '%' . $query . '%')
+            ->orWhere('konten', 'like', '%' . $query . '%')
+            ->where('status', 'publish')
+            ->limit(3)
+            ->get(['id', 'judul', 'konten', 'gambar']);
+            
+        foreach ($articles as $article) {
+            $results[] = [
+                'id' => 'article-' . $article->id,
+                'title' => $article->judul,
+                'description' => substr(strip_tags($article->konten), 0, 100) . '...',
+                'category' => 'articles',
+                'url' => '/artikel#' . $article->id,
+                'image' => $article->gambar ? '/storage/' . $article->gambar : null
+            ];
+        }
+    }
+    
+    return response()->json([
+        'success' => true,
+        'results' => $results
+    ]);
 });
 
 // Auth Routes
