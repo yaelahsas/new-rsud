@@ -21,8 +21,8 @@ class BeritaController extends Controller
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
-                $q->where('judul', 'like', '%' . $search . '%')
-                  ->orWhere('isi', 'like', '%' . $search . '%');
+                $q->where('judul', 'like', '%' . $search . '%');
+                //   ->orWhere('isi', 'like', '%' . $search . '%');
             });
         }
         

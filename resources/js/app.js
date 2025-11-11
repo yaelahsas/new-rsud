@@ -19,6 +19,13 @@ import './alpine/dokter-manager.js';
 import './alpine/jadwal-poli-manager.js';
 import './alpine/carousel-manager.js';
 import './alpine/dashboard-manager.js';
+import './alpine/galeri-manager.js';
+import './alpine/inovasi-manager.js';
+import './alpine/pengumuman-manager.js';
+import './alpine/kontak-manager.js';
+import './alpine/log-aktivitas-manager.js';
+import './alpine/setting-manager.js';
+import './alpine/review-manager.js';
 
 // Make Alpine available globally
 window.Alpine = Alpine;
