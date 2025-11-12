@@ -15,6 +15,9 @@ Route::get('/layanan', function () {
 Route::get('/artikel', function () {
     return view('artikel');
 });
+Route::get('/artikel/{slug}', function ($slug) {
+    return view('DetailArtikel', ['slug' => $slug]);
+})->name('artikel.detail');
 Route::get('/inovasi', function () {
     return view('inovasi');
 });
@@ -84,6 +87,14 @@ Route::get('/api/search', function (Illuminate\Http\Request $request) {
         'results' => $results
     ]);
 });
+
+// Public API Routes for Frontend
+Route::get('/api/articles', [\App\Http\Controllers\API\FrontendController::class, 'articles'])->name('api.articles');
+Route::get('/api/article-categories', [\App\Http\Controllers\API\FrontendController::class, 'articleCategories'])->name('api.article-categories');
+Route::get('/api/article-tags', [\App\Http\Controllers\API\FrontendController::class, 'articleTags'])->name('api.article-tags');
+Route::get('/api/article/{slug}', [\App\Http\Controllers\API\FrontendController::class, 'article'])->name('api.article');
+Route::get('/api/article/{id}/comments', [\App\Http\Controllers\API\FrontendController::class, 'articleComments'])->name('api.article.comments');
+Route::post('/api/article/{id}/comment', [\App\Http\Controllers\API\FrontendController::class, 'submitArticleComment'])->name('api.article.comment.submit');
 
 // Auth Routes
 Route::match(['get', 'post'], '/admin', function () {

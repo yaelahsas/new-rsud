@@ -28,6 +28,13 @@ document.addEventListener('alpine:init', () => {
         
         init() {
             console.log('DEBUG: articleManager init() called');
+            
+            // Load saved view mode from localStorage
+            const savedViewMode = localStorage.getItem('articleViewMode');
+            if (savedViewMode) {
+                this.viewMode = savedViewMode;
+            }
+            
             this.loadArticles();
             this.loadCategories();
             this.loadPopularTags(); // DEBUG: Load popular tags
@@ -43,12 +50,40 @@ document.addEventListener('alpine:init', () => {
             this.loading = true;
             
             try {
-                // Simulate API call - replace with actual endpoint
-                const response = await fetch('/api/articles');
+                // Build query string from current filters
+                const params = new URLSearchParams();
+                
+                if (this.filters.search) {
+                    params.append('search', this.filters.search);
+                }
+                if (this.filters.category) {
+                    params.append('category', this.filters.category);
+                }
+                if (this.filters.date) {
+                    params.append('date', this.filters.date);
+                }
+                params.append('perPage', this.pagination.perPage);
+                
+                const url = `/api/articles${params.toString() ? '?' + params.toString() : ''}`;
+                console.log('DEBUG: Fetching articles from:', url);
+                
+                const response = await fetch(url);
                 const data = await response.json();
                 
-                this.articles = data.articles || [];
-                this.applyFilters();
+                if (data.success) {
+                    this.articles = data.articles || [];
+                    // Update pagination from API response
+                    if (data.pagination) {
+                        this.pagination.totalPages = data.pagination.last_page;
+                        this.pagination.total = data.pagination.total;
+                        this.pagination.currentPage = data.pagination.current_page;
+                    }
+                    this.filteredArticles = this.articles;
+                    console.log('DEBUG: Articles loaded successfully:', this.articles.length);
+                } else {
+                    console.error('API returned error:', data.message);
+                    this.loadMockData();
+                }
             } catch (error) {
                 console.error('Error loading articles:', error);
                 // Fallback to mock data
@@ -64,7 +99,13 @@ document.addEventListener('alpine:init', () => {
                 const response = await fetch('/api/article-categories');
                 const data = await response.json();
                 
-                this.categories = data.categories || [];
+                if (data.success) {
+                    this.categories = data.categories || [];
+                    console.log('DEBUG: Categories loaded successfully:', this.categories.length);
+                } else {
+                    console.error('API returned error:', data.message);
+                    this.categories = [];
+                }
             } catch (error) {
                 console.error('Error loading categories:', error);
                 // Fallback to mock data
@@ -83,7 +124,13 @@ document.addEventListener('alpine:init', () => {
                 const response = await fetch('/api/article-tags');
                 const data = await response.json();
                 
-                this.popularTags = data.tags || [];
+                if (data.success) {
+                    this.popularTags = data.tags || [];
+                    console.log('DEBUG: Tags loaded successfully:', this.popularTags.length);
+                } else {
+                    console.error('API returned error:', data.message);
+                    this.popularTags = [];
+                }
             } catch (error) {
                 console.error('Error loading popular tags:', error);
                 // Fallback to mock data
@@ -178,38 +225,12 @@ document.addEventListener('alpine:init', () => {
         // Apply filters to articles
         applyFilters() {
             console.log('DEBUG: applyFilters() called with filters:', this.filters);
-            let filtered = [...this.articles];
             
-            // Search filter
-            if (this.filters.search) {
-                const searchLower = this.filters.search.toLowerCase();
-                filtered = filtered.filter(article =>
-                    article.title.toLowerCase().includes(searchLower) ||
-                    article.excerpt.toLowerCase().includes(searchLower) ||
-                    article.content.toLowerCase().includes(searchLower)
-                );
-                console.log('DEBUG: After search filter, articles count:', filtered.length);
-            }
+            // Reset to first page when applying filters
+            this.pagination.currentPage = 1;
             
-            // Category filter
-            if (this.filters.category) {
-                filtered = filtered.filter(article =>
-                    article.category.slug === this.filters.category
-                );
-                console.log('DEBUG: After category filter, articles count:', filtered.length);
-            }
-            
-            // Date filter
-            if (this.filters.date) {
-                filtered = filtered.filter(article =>
-                    article.published_at.startsWith(this.filters.date)
-                );
-                console.log('DEBUG: After date filter, articles count:', filtered.length);
-            }
-            
-            this.filteredArticles = filtered;
-            console.log('DEBUG: Final filteredArticles count:', this.filteredArticles.length);
-            this.updatePagination();
+            // Reload articles from API with filters
+            this.loadArticles();
         },
         
         // Update pagination
@@ -230,6 +251,7 @@ document.addEventListener('alpine:init', () => {
         changePage(page) {
             if (page >= 1 && page <= this.pagination.totalPages) {
                 this.pagination.currentPage = page;
+                this.loadArticles(); // Reload articles for the new page
                 this.scrollToTop();
             }
         },
@@ -372,6 +394,14 @@ document.addEventListener('alpine:init', () => {
             } else {
                 alert(message);
             }
+        },
+        
+        // Initialize method called from x-init in template
+        async initPage() {
+            console.log('DEBUG: initPage() called');
+            await this.loadArticles();
+            await this.loadCategories();
+            await this.loadPopularTags();
         }
     }));
 });

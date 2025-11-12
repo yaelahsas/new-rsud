@@ -11,6 +11,7 @@ import './alpine/hero-search.js';
 import './alpine/layanan-page.js';
 import './alpine/doctor-finder.js';
 import './alpine/article-manager.js';
+import './alpine/article-detail-manager.js';
 import './alpine/berita-manager.js';
 import './alpine/kategori-manager.js';
 import './alpine/user-manager.js';
