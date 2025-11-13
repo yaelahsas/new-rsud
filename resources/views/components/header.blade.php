@@ -42,14 +42,7 @@
             <!-- Right side items -->
             <div class="flex items-center lg:order-1 space-x-4">
                 <!-- Search Button (Desktop) -->
-                <button @click="openSearch()"
-                    class="hidden md:inline-flex items-center p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 transform hover:scale-110">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    <span class="sr-only">Search</span>
-                </button>
+              
 
                 <!-- Mobile menu toggle -->
                 <button @click="toggleMobileMenu()" :class="{ 'text-gray-900 bg-gray-100': mobileMenuOpen }"

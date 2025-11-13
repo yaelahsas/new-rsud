@@ -1,4 +1,19 @@
 <x-layout>
+    <!-- SEO Meta Tags -->
+    <title x-text="seoData.title">Temukan Dokter Kami - RSUD Genteng</title>
+    <meta name="description" x-content="seoData.description" content="Cari dokter berdasarkan nama, spesialisasi, atau jadwal praktik di RSUD Genteng">
+    <meta name="keywords" x-content="seoData.keywords" content="dokter, spesialis, jadwal praktik, RSUD Genteng">
+    <meta property="og:title" x-content="seoData.title" content="Temukan Dokter Kami - RSUD Genteng">
+    <meta property="og:description" x-content="seoData.description" content="Cari dokter berdasarkan nama, spesialisasi, atau jadwal praktik di RSUD Genteng">
+    <meta property="og:image" x-content="seoData.ogImage" content="/img/og-doctor-finder.jpg">
+    <meta property="og:url" x-content="window.location.href" content="">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" x-content="seoData.title" content="Temukan Dokter Kami - RSUD Genteng">
+    <meta name="twitter:description" x-content="seoData.description" content="Cari dokter berdasarkan nama, spesialisasi, atau jadwal praktik di RSUD Genteng">
+    <meta name="twitter:image" x-content="seoData.ogImage" content="/img/og-doctor-finder.jpg">
+    <link rel="canonical" x-href="window.location.href" href="">
+    
     <section id="doctors" class="py-20 bg-gray-50" x-data="doctorFinder" x-init="init()">
         <div class="container mx-auto px-4">
             <!-- Judul -->
@@ -17,10 +32,9 @@
                     <!-- Search Bar -->
                     <div class="mb-6">
                         <div class="relative">
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 x-model="filters.search"
-                                @input.debounce.300ms="applyFilters()"
                                 placeholder="🔍 Cari nama dokter atau spesialisasi..."
                                 class="w-full rounded-2xl border border-gray-300 bg-white px-5 py-4 pr-12 text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-300 text-lg" />
                             <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
@@ -36,9 +50,8 @@
                         <!-- Specialization Filter -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Spesialisasi</label>
-                            <select 
+                            <select
                                 x-model="filters.specialization"
-                                @change="applyFilters()"
                                 class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200">
                                 <template x-for="spec in specializations" :key="spec">
                                     <option :value="spec" x-text="`${spec} (${getSpecializationCount(spec)})`"></option>
@@ -49,9 +62,8 @@
                         <!-- Schedule Filter -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Jadwal Praktik</label>
-                            <select 
+                            <select
                                 x-model="filters.schedule"
-                                @change="applyFilters()"
                                 class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200">
                                 <template x-for="option in scheduleOptions" :key="option.value">
                                     <option :value="option.value" x-text="option.label"></option>
@@ -62,10 +74,9 @@
                         <!-- Available Filter -->
                         <div class="flex items-end">
                             <label class="flex items-center cursor-pointer">
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     x-model="filters.available"
-                                    @change="applyFilters()"
                                     class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                                 <span class="ml-2 text-sm text-gray-700">Hanya dokter yang tersedia</span>
                             </label>
@@ -134,19 +145,19 @@
                             
                             <!-- Availability Badge -->
                             <div class="absolute bottom-3 left-3">
-                                <span x-show="doctor.available" 
+                                <span x-show="doctor.available"
                                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     <svg class="w-2 h-2 mr-1" fill="currentColor" viewBox="0 0 8 8">
                                         <circle cx="4" cy="4" r="3"></circle>
                                     </svg>
                                     Tersedia
                                 </span>
-                                <span x-show="!doctor.available" 
+                                <span x-show="!doctor.available"
                                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                     <svg class="w-2 h-2 mr-1" fill="currentColor" viewBox="0 0 8 8">
                                         <circle cx="4" cy="4" r="3"></circle>
                                     </svg>
-                                    Sibuk
+                                    Tidak Tersedia
                                 </span>
                             </div>
                         </div>
@@ -164,12 +175,6 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     <span x-text="doctor.schedule"></span>
-                                </div>
-                                <div class="flex items-center justify-center">
-                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span x-text="doctor.experience + ' pengalaman'"></span>
                                 </div>
                             </div>
                             
@@ -233,5 +238,7 @@
                 </nav>
             </div>
         </div>
+        
+    
     </section>
 </x-layout>

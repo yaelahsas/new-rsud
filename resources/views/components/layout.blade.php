@@ -25,8 +25,11 @@
 
     <!-- Header -->
     <x-header></x-header>
-    {{-- <x-hero></x-hero> --}}
-    <x-hero></x-hero>
+    
+    <!-- Hero Section (only on home page) -->
+    @if(request()->is('/') || request()->is('home'))
+        <x-hero-full></x-hero-full>
+    @endif
  
     <!-- Main Content -->
     <main class="flex-grow bg-white shadow-inner">

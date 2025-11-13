@@ -71,6 +71,7 @@ class DokterSeeder extends Seeder
                 'poli_id' => $dokter[2],
                 'kontak' => $dokter[3],
                 'status' => $dokter[4],
+                'slug' => \Illuminate\Support\Str::slug($dokter[0]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

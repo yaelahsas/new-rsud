@@ -20,23 +20,8 @@ document.addEventListener('alpine:init', () => {
             total: 0
         },
         
-        // Specializations
-        specializations: [
-            'Semua Spesialisasi',
-            'Spesialis Penyakit Dalam',
-            'Spesialis Anak',
-            'Spesialis Kandungan',
-            'Spesialis Bedah',
-            'Spesialis Jantung',
-            'Spesialis Saraf',
-            'Spesialis Mata',
-            'Spesialis THT',
-            'Spesialis Kulit',
-            'Spesialis Paru',
-            'Spesialis Orthopedi',
-            'Spesialis Urologi',
-            'Spesialis Psikiatri'
-        ],
+        // Specializations (will be loaded from API)
+        specializations: ['Semua Spesialisasi'],
         
         // Schedule options
         scheduleOptions: [
@@ -46,22 +31,73 @@ document.addEventListener('alpine:init', () => {
             { value: 'evening', label: 'Sore (17:00 - 21:00)' }
         ],
         
+        // SEO data
+        seoData: {
+            title: 'Temukan Dokter Kami - RSUD Genteng',
+            description: 'Cari dokter berdasarkan nama, spesialisasi, atau jadwal praktik di RSUD Genteng',
+            keywords: 'dokter, spesialis, jadwal praktik, RSUD Genteng',
+            ogImage: '/img/og-doctor-finder.jpg'
+        },
+        
         init() {
             // Check for search query in URL
             const urlParams = new URLSearchParams(window.location.search);
             const searchQuery = urlParams.get('search');
+            const specializationQuery = urlParams.get('specialization');
+            const scheduleQuery = urlParams.get('schedule');
+            const availableQuery = urlParams.get('available');
+            
             if (searchQuery) {
                 this.filters.search = searchQuery;
             }
+            if (specializationQuery) {
+                this.filters.specialization = specializationQuery;
+            }
+            if (scheduleQuery) {
+                this.filters.schedule = scheduleQuery;
+            }
+            if (availableQuery === 'true') {
+                this.filters.available = true;
+            }
             
-            this.loadDoctors();
+            // Initialize page
+            this.initializePage();
             
             // Watch for filter changes
             this.$watch('filters', () => {
+                // Reset to first page when filters change
+                this.pagination.currentPage = 1;
                 this.applyFilters();
                 // Update URL with search query
                 this.updateURL();
             }, { deep: true });
+            
+            // Initialize search debounce
+            this.initSearchDebounce();
+        },
+        
+        // Initialize page
+        async initializePage() {
+            await Promise.all([
+                this.loadSpecializations(),
+                this.loadDoctors()
+            ]);
+            
+            this.updatePageMeta();
+        },
+        
+        // Load specializations from API
+        async loadSpecializations() {
+            try {
+                const response = await fetch('/api/doctor-specializations');
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.specializations = data.specializations;
+                }
+            } catch (error) {
+                console.error('Error loading specializations:', error);
+            }
         },
         
         // Load doctors from API
@@ -69,26 +105,31 @@ document.addEventListener('alpine:init', () => {
             this.loading = true;
             
             try {
-                // Use the correct API endpoint
-                const response = await fetch('/admin/api/dokter');
+                // Build query parameters
+                const params = new URLSearchParams();
+                // Only add search parameter if it's not empty
+                if (this.filters.search && this.filters.search.trim()) {
+                    params.append('search', this.filters.search);
+                }
+                if (this.filters.specialization && this.filters.specialization !== 'Semua Spesialisasi') {
+                    params.append('specialization', this.filters.specialization);
+                }
+                
+                const response = await fetch(`/api/doctors?${params.toString()}`);
                 const data = await response.json();
                 
-                // Transform the data to match expected format
-                this.doctors = (data.data || []).map(doctor => ({
-                    id: doctor.id,
-                    name: doctor.nama,
-                    specialization: doctor.spesialis,
-                    image: doctor.foto ? `/storage/${doctor.foto}` : 'https://rsudgenteng.banyuwangikab.go.id/gambar/dokter/default.jpg',
-                    schedule: 'Senin - Jumat (08.00 - 14.00)', // Default schedule
-                    scheduleTime: 'morning',
-                    available: doctor.status === 'aktif',
-                    experience: '5+ tahun', // Default experience
-                    education: 'Universitas', // Default education
-                    profile_url: `/medis/${doctor.id}`,
-                    poli: doctor.poli
-                }));
+                // Debug logging
+                console.log('API Response:', data);
                 
-                this.applyFilters();
+                if (data.success && Array.isArray(data.doctors)) {
+                    this.doctors = data.doctors;
+                    // Apply filters after loading new data
+                    this.applyFilters();
+                } else {
+                    // Fallback to mock data if response is not as expected
+                    console.log('Using mock data - API response not as expected');
+                    this.loadMockData();
+                }
             } catch (error) {
                 console.error('Error loading doctors:', error);
                 // Fallback to mock data
@@ -103,51 +144,47 @@ document.addEventListener('alpine:init', () => {
             this.doctors = [
                 {
                     id: 1,
+                    slug: 'ahmad-santoso',
                     name: 'dr. Ahmad Santoso, Sp.PD',
                     specialization: 'Spesialis Penyakit Dalam',
                     image: 'https://rsudgenteng.banyuwangikab.go.id/gambar/dokter/default.jpg',
-                    schedule: 'Senin - Jumat (08.00 - 14.00)',
+                    schedule: 'Senin - Jumat 08:00 - 14:00',
                     scheduleTime: 'morning',
                     available: true,
-                    experience: '15 tahun',
-                    education: 'Universitas Airlangga',
-                    profile_url: '/dokter/1'
+                    profile_url: `/medis/ahmad-santoso`
                 },
                 {
                     id: 2,
+                    slug: 'maria-citra',
                     name: 'dr. Maria Citra, Sp.A',
                     specialization: 'Spesialis Anak',
                     image: 'https://rsudgenteng.banyuwangikab.go.id/gambar/dokter/default2.jpg',
-                    schedule: 'Selasa - Sabtu (09.00 - 13.00)',
+                    schedule: 'Selasa - Sabtu 09:00 - 13:00',
                     scheduleTime: 'morning',
                     available: true,
-                    experience: '10 tahun',
-                    education: 'Universitas Indonesia',
-                    profile_url: '/dokter/2'
+                    profile_url: `/medis/maria-citra`
                 },
                 {
                     id: 3,
+                    slug: 'budi-santoso',
                     name: 'dr. Budi Santoso, Sp.JP',
                     specialization: 'Spesialis Jantung',
                     image: 'https://rsudgenteng.banyuwangikab.go.id/gambar/dokter/default3.jpg',
-                    schedule: 'Senin - Kamis (14.00 - 20.00)',
+                    schedule: 'Senin - Kamis 14:00 - 20:00',
                     scheduleTime: 'afternoon',
                     available: false,
-                    experience: '12 tahun',
-                    education: 'Universitas Gadjah Mada',
-                    profile_url: '/dokter/3'
+                    profile_url: `/medis/budi-santoso`
                 },
                 {
                     id: 4,
+                    slug: 'siti-nurhaliza',
                     name: 'dr. Siti Nurhaliza, Sp.KK',
                     specialization: 'Spesialis Kulit',
                     image: 'https://rsudgenteng.banyuwangikab.go.id/gambar/dokter/default4.jpg',
-                    schedule: 'Rabu - Sabtu (10.00 - 16.00)',
+                    schedule: 'Rabu - Sabtu 10:00 - 16:00',
                     scheduleTime: 'afternoon',
                     available: true,
-                    experience: '8 tahun',
-                    education: 'Universitas Brawijaya',
-                    profile_url: '/dokter/4'
+                    profile_url: `/medis/siti-nurhaliza`
                 }
             ];
             
@@ -156,27 +193,34 @@ document.addEventListener('alpine:init', () => {
         
         // Apply filters to doctors
         applyFilters() {
+            // Ensure doctors is an array before filtering
+            if (!Array.isArray(this.doctors)) {
+                this.filteredDoctors = [];
+                return;
+            }
+            
             let filtered = [...this.doctors];
             
-            // Search filter
-            if (this.filters.search) {
-                const searchLower = this.filters.search.toLowerCase();
-                filtered = filtered.filter(doctor => 
+            // Search filter - only apply if search query is not empty
+            if (this.filters.search && this.filters.search.trim()) {
+                const searchLower = this.filters.search.toLowerCase().trim();
+                filtered = filtered.filter(doctor =>
                     doctor.name.toLowerCase().includes(searchLower) ||
-                    doctor.specialization.toLowerCase().includes(searchLower)
+                    doctor.specialization.toLowerCase().includes(searchLower) ||
+                    (doctor.poli && doctor.poli.toLowerCase().includes(searchLower))
                 );
             }
             
             // Specialization filter
             if (this.filters.specialization && this.filters.specialization !== 'Semua Spesialisasi') {
-                filtered = filtered.filter(doctor => 
+                filtered = filtered.filter(doctor =>
                     doctor.specialization === this.filters.specialization
                 );
             }
             
             // Schedule filter
             if (this.filters.schedule) {
-                filtered = filtered.filter(doctor => 
+                filtered = filtered.filter(doctor =>
                     doctor.scheduleTime === this.filters.schedule
                 );
             }
@@ -228,6 +272,12 @@ document.addEventListener('alpine:init', () => {
                 schedule: '',
                 available: false
             };
+            // Update URL first to reflect cleared filters
+            this.updateURL();
+            // Reset pagination to first page
+            this.pagination.currentPage = 1;
+            // Apply filters immediately to update the display
+            this.applyFilters();
         },
         
         // Get specialization count
@@ -239,23 +289,23 @@ document.addEventListener('alpine:init', () => {
         },
         
         // Toggle favorite doctor
-        toggleFavorite(doctorId) {
+        toggleFavorite(doctorSlug) {
             const favorites = JSON.parse(localStorage.getItem('favoriteDoctors') || '[]');
-            const index = favorites.indexOf(doctorId);
+            const index = favorites.indexOf(doctorSlug);
             
             if (index > -1) {
                 favorites.splice(index, 1);
             } else {
-                favorites.push(doctorId);
+                favorites.push(doctorSlug);
             }
             
             localStorage.setItem('favoriteDoctors', JSON.stringify(favorites));
         },
         
         // Check if doctor is favorite
-        isFavorite(doctorId) {
+        isFavorite(doctorSlug) {
             const favorites = JSON.parse(localStorage.getItem('favoriteDoctors') || '[]');
-            return favorites.includes(doctorId);
+            return favorites.includes(doctorSlug);
         },
         
         // Book appointment
@@ -288,6 +338,67 @@ document.addEventListener('alpine:init', () => {
             // Update URL without page reload
             const newUrl = params.toString() ? `${url.pathname}?${params.toString()}` : url.pathname;
             window.history.replaceState({}, '', newUrl);
+        },
+        
+        // Update page meta tags
+        updatePageMeta() {
+            // Update title
+            document.title = this.seoData.title;
+            
+            // Update meta description
+            const metaDescription = document.querySelector('meta[name="description"]');
+            if (metaDescription) {
+                metaDescription.setAttribute('content', this.seoData.description);
+            }
+            
+            // Update meta keywords
+            const metaKeywords = document.querySelector('meta[name="keywords"]');
+            if (metaKeywords) {
+                metaKeywords.setAttribute('content', this.seoData.keywords);
+            }
+            
+            // Update Open Graph tags
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) {
+                ogTitle.setAttribute('content', this.seoData.title);
+            }
+            
+            const ogDescription = document.querySelector('meta[property="og:description"]');
+            if (ogDescription) {
+                ogDescription.setAttribute('content', this.seoData.description);
+            }
+            
+            const ogImage = document.querySelector('meta[property="og:image"]');
+            if (ogImage) {
+                ogImage.setAttribute('content', this.seoData.ogImage);
+            }
+            
+            // Update canonical URL
+            const canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) {
+                canonical.setAttribute('href', window.location.href);
+            } else {
+                const link = document.createElement('link');
+                link.rel = 'canonical';
+                link.href = window.location.href;
+                document.head.appendChild(link);
+            }
+        },
+        
+        // Initialize search debounce
+        initSearchDebounce() {
+            let timeout;
+            let previousValue = this.filters.search || '';
+            
+            this.$watch('filters.search', (newValue) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    // Always reload doctors when search changes
+                    this.loadDoctors();
+                }, 300);
+                
+                previousValue = newValue;
+            });
         }
     }));
 });

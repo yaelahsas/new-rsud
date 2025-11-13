@@ -6,9 +6,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/welcome2', function () {
+    return view('welcome2');
+})->name('home2');
 Route::get('/medis', function () {
     return view('medis');
 });
+Route::get('/medis/{slug}', function ($slug) {
+    return view('doctor-profile', ['slug' => $slug]);
+})->name('doctor.profile');
 Route::get('/layanan', function () {
     return view('layanan');
 });
@@ -95,6 +102,13 @@ Route::get('/api/article-tags', [\App\Http\Controllers\API\FrontendController::c
 Route::get('/api/article/{slug}', [\App\Http\Controllers\API\FrontendController::class, 'article'])->name('api.article');
 Route::get('/api/article/{id}/comments', [\App\Http\Controllers\API\FrontendController::class, 'articleComments'])->name('api.article.comments');
 Route::post('/api/article/{id}/comment', [\App\Http\Controllers\API\FrontendController::class, 'submitArticleComment'])->name('api.article.comment.submit');
+
+// Medical Page API Routes
+Route::get('/api/doctors', [\App\Http\Controllers\API\FrontendController::class, 'doctors'])->name('api.doctors');
+Route::get('/api/doctor-specializations', [\App\Http\Controllers\API\FrontendController::class, 'doctorSpecializations'])->name('api.doctor-specializations');
+Route::get('/api/polis', [\App\Http\Controllers\API\FrontendController::class, 'polis'])->name('api.polis');
+Route::get('/api/doctor-schedules', [\App\Http\Controllers\API\FrontendController::class, 'doctorSchedules'])->name('api.doctor-schedules');
+Route::get('/api/doctor/{id}', [\App\Http\Controllers\API\FrontendController::class, 'doctor'])->name('api.doctor');
 
 // Auth Routes
 Route::match(['get', 'post'], '/admin', function () {
