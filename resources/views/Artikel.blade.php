@@ -261,7 +261,7 @@
                             <option value="">Semua Kategori</option>
                             <template x-for="category in categories" :key="category.id">
                                 <option :value="category.slug"
-                                    x-text="`${category.name} (${getCategoryCount(category.slug)})`"></option>
+                                    x-text="`${category.name} (${category.count})`"></option>
                             </template>
                         </select>
                     </div>
@@ -284,7 +284,7 @@
                 <div class="bg-white rounded-2xl shadow p-6 fade-in">
                     <h3 class="text-lg font-semibold mb-4">Artikel Terbaru</h3>
                     <div class="space-y-4">
-                        <template x-for="article in articles.slice(0, 5)" :key="article.id">
+                        <template x-for="article in latestArticles" :key="article.id">
                             <div class="flex items-start space-x-3 stagger-item">
                                 <img :src="article.thumbnail" :alt="article.title"
                                     class="w-20 h-16 object-cover rounded-lg transition-transform duration-200 hover:scale-105">

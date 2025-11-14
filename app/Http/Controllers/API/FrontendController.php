@@ -19,7 +19,7 @@ class FrontendController extends Controller
     public function articles(Request $request)
     {
         $query = Berita::with(['kategori', 'author'])
-            ->where('publish', true);
+            ->where('publish', 1);
 
         // Search functionality
         if ($request->has('search') && !empty($request->search)) {

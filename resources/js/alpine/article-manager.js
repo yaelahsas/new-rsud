@@ -38,6 +38,7 @@ document.addEventListener('alpine:init', () => {
             this.loadArticles();
             this.loadCategories();
             this.loadPopularTags(); // DEBUG: Load popular tags
+            this.loadLatestArticles(); // Load latest articles for sidebar
             
             // Watch for filter changes
             this.$watch('filters', () => {
@@ -47,6 +48,7 @@ document.addEventListener('alpine:init', () => {
         
         // Load articles from API
         async loadArticles() {
+            // Show loading state immediately for better UX
             this.loading = true;
             
             try {
@@ -63,6 +65,7 @@ document.addEventListener('alpine:init', () => {
                     params.append('date', this.filters.date);
                 }
                 params.append('perPage', this.pagination.perPage);
+                params.append('page', this.pagination.currentPage);
                 
                 const url = `/api/articles${params.toString() ? '?' + params.toString() : ''}`;
                 console.log('DEBUG: Fetching articles from:', url);
@@ -78,6 +81,7 @@ document.addEventListener('alpine:init', () => {
                         this.pagination.total = data.pagination.total;
                         this.pagination.currentPage = data.pagination.current_page;
                     }
+                    // Set filteredArticles to articles for compatibility with template
                     this.filteredArticles = this.articles;
                     console.log('DEBUG: Articles loaded successfully:', this.articles.length);
                 } else {
@@ -141,6 +145,25 @@ document.addEventListener('alpine:init', () => {
                     { id: 4, name: 'Vaksinasi', slug: 'vaksinasi', count: 6 },
                     { id: 5, name: 'Pandemi', slug: 'pandemi', count: 4 }
                 ];
+            }
+        },
+        
+        // Load latest articles for sidebar
+        async loadLatestArticles() {
+            try {
+                const response = await fetch('/api/articles?perPage=5');
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.latestArticles = data.articles || [];
+                    console.log('DEBUG: Latest articles loaded successfully:', this.latestArticles.length);
+                } else {
+                    console.error('API returned error:', data.message);
+                    this.latestArticles = [];
+                }
+            } catch (error) {
+                console.error('Error loading latest articles:', error);
+                this.latestArticles = [];
             }
         },
         
@@ -219,7 +242,14 @@ document.addEventListener('alpine:init', () => {
                 }
             ];
             
-            this.applyFilters();
+            // Set up pagination for mock data
+            this.pagination.total = this.articles.length;
+            this.pagination.totalPages = Math.ceil(this.pagination.total / this.pagination.perPage);
+            this.pagination.currentPage = 1;
+            // Set filteredArticles for compatibility with template
+            this.filteredArticles = this.articles;
+            // Set latestArticles for sidebar
+            this.latestArticles = this.articles.slice(0, 5);
         },
         
         // Apply filters to articles
@@ -233,26 +263,32 @@ document.addEventListener('alpine:init', () => {
             this.loadArticles();
         },
         
-        // Update pagination
+        // Update pagination (not needed for server-side pagination)
         updatePagination() {
-            this.pagination.total = this.filteredArticles.length;
-            this.pagination.totalPages = Math.ceil(this.pagination.total / this.pagination.perPage);
-            this.pagination.currentPage = 1;
+            // This method is kept for compatibility but not used with server-side pagination
+            console.log('DEBUG: updatePagination() called - not needed with server-side pagination');
         },
         
         // Get paginated articles
         get paginatedArticles() {
-            const start = (this.pagination.currentPage - 1) * this.pagination.perPage;
-            const end = start + this.pagination.perPage;
-            return this.filteredArticles.slice(start, end);
+            // When using server-side pagination, the API already returns the correct page data
+            // So we just return the articles array directly
+            return this.articles;
         },
         
         // Change page
         changePage(page) {
             if (page >= 1 && page <= this.pagination.totalPages) {
+                // Show loading state immediately for better UX
+                this.loading = true;
+                
+                // Update page number
                 this.pagination.currentPage = page;
-                this.loadArticles(); // Reload articles for the new page
-                this.scrollToTop();
+                
+                // Load articles for the new page
+                this.loadArticles().then(() => {
+                    this.scrollToTop();
+                });
             }
         },
         
@@ -402,6 +438,7 @@ document.addEventListener('alpine:init', () => {
             await this.loadArticles();
             await this.loadCategories();
             await this.loadPopularTags();
+            await this.loadLatestArticles();
         }
     }));
 });
